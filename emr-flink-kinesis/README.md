@@ -7,7 +7,12 @@
 ![Image](https://s3.amazonaws.com/dikers.nwcd/wordcount/arch.jpeg)
 
 
-本项目是一个基于AWS EMR + Flink 在线数据分析的一个DEMO， 如图所示前端Web, 收集实时的搜索数据， 发送给kinesis,然后发给EMR 集群的Flink 做分析， 然后Flink 通过Kinesis 发给lambda 保存到 DynamoDB中， 最后前端Dashboard 再通过lambda 进行读取。 
+本项目是一个基于AWS EMR + Flink 在线数据分析的一个DEMO,步骤：
+1. 如图所示前端Web, 收集实时的搜索数据，发送给Api Gateway + lambda. 
+2. Lambda 发送数据到kinesis 
+3. 然后发给EMR 集群的Flink 做数据分析 
+4. 然后Flink 通过Kinesis 发给lambda 保存到 DynamoDB中 
+5. 最后前端Web Dashboard 通过lambda 读取DynamoDB 
 
 
 
