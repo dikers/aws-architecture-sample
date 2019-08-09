@@ -4,7 +4,9 @@
 
 
 ### 架构图
-![Image](https://s3.amazonaws.com/dikers.nwcd/wordcount/arch.jpeg)
+![Image](https://s3.amazonaws.com/dikers.nwcd/wordcount/arch-info.jpeg)
+
+[Dashboard 演示地址](https://dikers-html.s3.cn-northwest-1.amazonaws.com.cn/wordcount/index.html)
 
 
 本项目是一个基于AWS EMR + Flink 在线数据分析的一个DEMO,步骤：
