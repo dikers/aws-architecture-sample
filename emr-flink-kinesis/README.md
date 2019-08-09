@@ -4,7 +4,7 @@
 
 
 ### 架构图
-![Image](https://dikers-html.s3.cn-northwest-1.amazonaws.com.cn/wordcount/arch.jpeg)
+![Image](https://s3.amazonaws.com/dikers.nwcd/wordcount/arch.jpeg)
 
 
 本项目是一个基于AWS EMR + Flink 在线数据分析的一个DEMO， 如图所示前端Web, 收集实时的搜索数据， 发送给kinesis,然后发给EMR 集群的Flink 做分析， 然后Flink 通过Kinesis 发给lambda 保存到 DynamoDB中， 最后前端Dashboard 再通过lambda 进行读取。 
