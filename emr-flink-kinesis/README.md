@@ -1,35 +1,66 @@
-# Flink 作业相关
+# EMR + Flink 在线数据分析
 
 
 
-###  项目创建
 
-```
-curl https://flink.apache.org/q/quickstart.sh | bash
-
-```
+### 架构图
+![Image](https://dikers-html.s3.cn-northwest-1.amazonaws.com.cn/wordcount/cspoc.001.jpeg)
 
 
-### 介绍
-```
-aws emr create-cluster --release-label emr-5.25.0 \
---applications Name=Flink \
---configurations file://./configurations.json \
---region us-east-1 \
---log-uri s3://myLogUri \
---instance-type m4.large \
---instance-count 2 \
---service-role EMR_DefaultRole \ 
---ec2-attributes KeyName=MyKeyName,InstanceProfile=EMR_EC2_DefaultRole \
---steps Type=CUSTOM_JAR,Jar=command-runner.jar,Name=Flink_Long_Running_Session,\
-Args="flink-yarn-session -n 2 -d"
-
-
-```
+本项目是一个基于AWS EMR + Flink 在线数据分析的一个DEMO， 如图所示前端Web, 收集实时的搜索数据， 发送给kinesis,然后发给EMR 集群的Flink 做分析， 然后Flink 通过Kinesis 发给lambda 保存到 DynamoDB中， 最后前端Dashboard 再通过lambda 进行读取。 
 
 
 
-###  创建集群
+### 目录说明
+.
+├── README.md                                                   #
+├── build.sh                                                    #编译脚本
+├── flink-sink-lambda                           
+│   ├── README.md
+│   └── lambda_function.py                                      # 读取Flink 数据，保存到DynamoDB 的lambda
+├── pom.xml
+├── src
+│   └── main
+│       ├── java
+│       │   └── com
+│       │       └── dikers
+│       │           └── emr
+│       │               └── flink
+│       │                   └── KinesisFlinkDemo.java           # Flink 相关java 代码
+├── web-dashboard
+│   ├── README.md
+│   ├── lambda
+│   │   └── lambda_function.py                                  # 读取Dashboard展示所需要数据的 lambda 
+│   └── web                                                     # Dashboard web 界面
+│       ├── app.js                                              
+│       └── index.html
+└── web-send-data
+    ├── README.md
+    ├── lambda
+    │   └── lambda_function.py                                  # 处理发送数据相关lambda
+    └── web                                                     # 数据收集web 页面
+        ├── app.js
+        └── index.html
+
+
+
+
+
+### AWS 服务介绍
+
+[EMR https://docs.aws.amazon.com/zh_cn/emr/?id=docs_gateway](https://docs.aws.amazon.com/zh_cn/emr/?id=docs_gateway)
+
+[Kinesis https://docs.aws.amazon.com/zh_cn/kinesis/?id=docs_gateway](https://docs.aws.amazon.com/zh_cn/kinesis/?id=docs_gateway)
+
+[Lambda https://docs.aws.amazon.com/zh_cn/lambda/?id=docs_gateway](https://docs.aws.amazon.com/zh_cn/lambda/?id=docs_gateway)
+
+[DynamoDB https://docs.aws.amazon.com/zh_cn/dynamodb/?id=docs_gateway](https://docs.aws.amazon.com/zh_cn/dynamodb/?id=docs_gateway) 
+
+
+###  创建EMR集群集群
+
+
+[EMR 入门文档 ](https://docs.aws.amazon.com/zh_cn/emr/latest/ManagementGuide/emr-gs.html)
 
 ```
 # 创建集群
@@ -48,7 +79,7 @@ aws emr create-cluster --name "Cluster with Flink" --release-label emr-5.25.0 \
 
 
 
-### 创建任务
+*  创建任务
 
 ```
 
@@ -56,14 +87,17 @@ aws emr add-steps --cluster-id j-1YKE5B1GQZAX9  --steps Type=Flink,Name="Flink T
 
 ```
 
+
+
+* 常用命令
 ```
 
 
 # 正在运行的任务
- aws emr  list-steps --cluster-id j-27R76Z446VVBS  --step-states="RUNNING"
+aws emr  list-steps --cluster-id j-27R76Z446VVBS  --step-states="RUNNING"
 
 # 结束任务
- aws emr  cancel-steps --cluster-id j-27R76Z446VVBS  --step-ids=s-LS0I0LAAQFDS
+aws emr  cancel-steps --cluster-id j-27R76Z446VVBS  --step-ids=s-LS0I0LAAQFDS
 
 #停止集群
 aws emr terminate-clusters --cluster-id j-27R76Z446VVBS
