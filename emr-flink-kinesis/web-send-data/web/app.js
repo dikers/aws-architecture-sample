@@ -8,58 +8,55 @@ $(function(){
                 pictures: []
              },
             methods:{
-                send:function(){
+                sendMessage:function(){
+                    _sendMessage();
                 }
             }
     })
-    getData()
-
 
 });
 
 
+function _sendMessage(){
+
+    var value = $("#content_text_id").val()
+
+    params = {}
 
 
+    if(value == null || value.trim() == ""){
+    console.log(" value is null --------- " )
+        return
+    }
+    var value = value.trim();
 
-    function getData( ) {
+    var wordList = value.split(" ")
+    var newWordList = new Array();
+    var j =0 ;
 
+    for(i=0; i< wordList.length; i++){
 
-        var params={};
-        params.word= 'html world test help help ' ;
-        console.log("-------------------------- getData")
-        $.ajax({
-            async:true,
-            type:"post",
-            contentType : "application/json;charset=UTF-8", //类型必填
-            url:"https://37257els9e.execute-api.us-east-1.amazonaws.com/prod/KinesisDemo",
-            data:JSON.stringify(params),    //转json串或不转 配合后端即可
-            dataType:"json",
-            success:function(data){
+        if(wordList[i] !="" && wordList[i].trim().length > 2){
+            newWordList[j++] = wordList[i].trim()
+        }
 
-                console.log(JSON.stringify(data))
-            },
-            error:function(data){
-                console.log(data.result);
-            }
-        })
     }
 
-
-        function getData2( ) {
-
-
-
-        var params={};
-        params.username="admin"
-        params.password="admin123"
-
-            var params="username=admin&password=admin123";
-            console.log("---------------------- getData")
+    result = "";
+    for(j=0; j< newWordList.length; j++ ){
+        result += newWordList[j]
+        if(j!=newWordList.length -1){
+            result+=" "
+        }
+    }
+    console.log("newMessage --------- ["+result+"]")
+    params.word= result;
+    console.log("sendMessage --------- ", params)
             $.ajax({
                 async:true,
                 type:"post",
                 contentType : "application/json;charset=UTF-8", //类型必填
-                url:"https://1slc362uw4.execute-api.cn-northwest-1.amazonaws.com.cn/api/login",
+                url:"https://37257els9e.execute-api.us-east-1.amazonaws.com/prod/KinesisDemo",
                 data:JSON.stringify(params),    //转json串或不转 配合后端即可
                 dataType:"json",
                 success:function(data){
@@ -70,6 +67,6 @@ $(function(){
                     console.log(data.result);
                 }
             })
-        }
+}
 
 
