@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+
+    <title>Title</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://v3.bootcss.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"/>
+    <link href="https://v3.bootcss.com/examples/dashboard/dashboard.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div class="page" id="main" >
+
+    <div class="table-responsive">
+        <table class="table" style="width:600px;">
+            <thead>
+                <th>序号</th>
+                <th>工厂名称</th>
+                <th>时间</th>
+                <th>照片</th>
+            </thead>
+            <tr v-for="(item, index) of itemList">
+                <td  v-text="index+ 1"></td>
+                <td  v-text="item.factoryName"></td>
+                <td  v-text="item.createTime"></td>
+                <td> <img :src="item.imageUrl"  style="width:200px;height:120px"   /></td>
+
+            </tr>
+
+        </table>
+    </div>
+
+
+
+</div>
+</body>
+
+
+
+<script src="https://v3.bootcss.com/assets/js/ie-emulation-modes-warning.js"></script>
+<script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://v3.bootcss.com/assets/js/vendor/holder.min.js"></script>
+<script src="https://v3.bootcss.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="./app.js" language="javascript" type="text/javascript"></script>
+</html>

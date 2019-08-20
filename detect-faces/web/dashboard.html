@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>蓝星监控系统</title>
+
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://v3.bootcss.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://v3.bootcss.com/examples/navbar/navbar.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="container" style="width:1280px;" id="main">
+
+
+
+
+    <div class="page-header">
+        <h1>蓝星监控系统</h1>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-10" style="height:480px">
+
+            <div class="row">
+                    <div class="col-md-7" id="chart1" style="height:480px" > </div>
+                    <div class="col-md-5" id="chart2" style="height:480px" > </div>
+            </div>
+
+            <div class="row" style="margin-top:40px" >
+                <div class="col-md-7" id="chart3" style="height:400px;" > </div>
+                <div class="col-md-5" id="chart4" style="height:400px;" > </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-2" >
+
+            <table class="table" style="width:100%">
+                <tr v-for="(item, index) of itemList">
+                    <td>
+                        <img :src="item.imageUrl"  style="width:180px;height:110px"   />
+                        <p><span  v-text="item.createTime"></span> <a>视频</a> </p>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+</div> <!-- /container -->
+
+
+</body>
+
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+
+<script src="https://v3.bootcss.com/assets/js/ie-emulation-modes-warning.js"></script>
+<script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://v3.bootcss.com/assets/js/vendor/holder.min.js"></script>
+<script src="https://v3.bootcss.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="./b.js" language="javascript" type="text/javascript"></script>
+
+
+</html>
