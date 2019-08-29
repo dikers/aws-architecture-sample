@@ -10,7 +10,7 @@ $(function(){
     })
 
     getData();
-    setInterval(getData, 10000);
+    setInterval(getData, 5000);
     initChart1();
     initChart2();
     initChart3();
@@ -25,7 +25,8 @@ function getData(){
               async:true,
               type:"get",
               contentType : "application/json;charset=UTF-8", //类型必填
-              url:"https://eilmol743d.execute-api.us-east-1.amazonaws.com/prod",
+              url:"https://87l7yigsmk.execute-api.us-west-2.amazonaws.com/prod",
+              //url:"https://eilmol743d.execute-api.us-east-1.amazonaws.com/prod",
               dataType:"json",
               success:function(data){
                    console.log(data);
