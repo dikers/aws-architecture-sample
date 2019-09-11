@@ -200,7 +200,8 @@ def merge_video(input_video_name, output_video_name, input_srt_name):
 
 if __name__ == "__main__":
 
-{
+    raw_content = """
+    {
     "Records": [
         {
             "eventVersion": "2.0",
@@ -235,9 +236,9 @@ if __name__ == "__main__":
                     "sequencer": "0A1B2C3D4E5F678901"
                 }
             }
-        }
-    ]
-}
-     """
+            }
+        ]
+    }
+    """
     event = json.loads(raw_content)
     lambda_handler(event, '')
