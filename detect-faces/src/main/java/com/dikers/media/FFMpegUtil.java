@@ -15,7 +15,7 @@ public class FFMpegUtil {
     // ffmpeg命令所在路径
     private static final String FFMPEG_PATH = "/bin/ffmpeg";
     // ffmpeg处理后的临时文件
-    private static final String TMP_PATH = "~/tmp";
+    private static final String TMP_PATH = "/Users/mac/Downloads";
     // home路径
     private static final String HOME_PATH;
 
@@ -69,7 +69,7 @@ public class FFMpegUtil {
 //        videoToAudio( "/Users/mac/Desktop/love.mp4" );
 
 
-        burnSubtitlesIntoVideo("/Users/mac/tmp/love.mp4", new File( "/Users/mac/tmp/test.srt" ));
+        burnSubtitlesIntoVideo("/Users/mac/Downloads/zhuchiren.mp4", new File( "/Users/mac/Downloads/zhuchiren_es_mp4.srt" ));
     }
 
 }
