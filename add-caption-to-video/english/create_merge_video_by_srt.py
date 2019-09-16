@@ -1,14 +1,17 @@
 import json
 import boto3
 
+
+bucket_name = 'dikers.nwcd'
+
 media_convert_endpoint_url = 'https://vasjpylpa.mediaconvert.us-east-1.amazonaws.com'
-output_file_base_url = 's3://dikers.nwcd/media/out_video/'
+output_file_base_url = 's3://'+bucket_name+'/media/out_video/'
 media_convert_queue_arn = 'arn:aws:mediaconvert:us-east-1:351315713712:queues/Default'
 media_convert_role_arn = 'arn:aws:iam::351315713712:role/MediaConvertRole'
 
-prefix_input_file_url   = 's3://dikers.nwcd/media/input/'
-prefix_srt_url          = 's3://dikers.nwcd/media/srt/'
-prefix_output_video_url  = 's3://dikers.nwcd/media/out_video/'
+prefix_input_file_url   = 's3://'+bucket_name+'/media/input/'
+prefix_srt_url          = 's3://'+bucket_name+'/media/srt/'
+prefix_output_video_url  = 's3://'+bucket_name+'/media/out_video/'
 
 
 def lambda_handler(event, context):
@@ -115,7 +118,7 @@ def merge_video(input_video_name, output_video_name, input_srt_name):
                                         "TemporalAdaptiveQuantization": "ENABLED",
                                         "FlickerAdaptiveQuantization": "DISABLED",
                                         "EntropyEncoding": "CABAC",
-                                        "Bitrate": 2000000,
+                                        "Bitrate": 3000000,
                                         "FramerateControl": "INITIALIZE_FROM_SOURCE",
                                         "RateControlMode": "CBR",
                                         "CodecProfile": "MAIN",
@@ -171,13 +174,14 @@ def merge_video(input_video_name, output_video_name, input_srt_name):
                                             "OutlineSize": 2,
                                             "ShadowColor": "NONE",
                                             "FontOpacity": 255,
-                                            "FontSize": 0,
+                                            "FontSize": 6,
                                             "FontColor": "WHITE",
                                             "BackgroundColor": "NONE",
                                             "FontResolution": 96,
                                             "OutlineColor": "BLACK"
                                         }
-                                    }
+                                    },
+                                    "LanguageCode": "ZHO"
                                 }
                             ]
                         }

@@ -19,15 +19,18 @@ def lambda_handler(event, context):
     input_file = event['Records'][0]['s3']['object']['key']
     naked_file_name = input_file.rsplit("/", 1)[1].split('.')[0]
     name_split_list = naked_file_name.split('_')
-    if len(name_split_list) <2:
-        return 'error: 文件名字格式不正确， love_mp4.srt , 会生成love.mp4 的视频文件'
+    print(name_split_list)
+    if len(name_split_list) <3:
+        return 'error: 文件名字格式不正确， love_mp4_en.srt , 会生成love.mp4 的视频文件'
 
     # 生成新的 video name
-    new_video_name = name_split_list[0]+'.'+name_split_list[1]
+    new_video_name = name_split_list[0]+'_'+name_split_list[2]+'.'+name_split_list[1]
     print(new_video_name)
 
-    input_video_name = prefix_input_file_url+new_video_name
-    output_video_name = prefix_output_video_url+name_split_list[0]
+    nake_name = name_split_list[0]+'.'+name_split_list[1]
+
+    input_video_name = prefix_input_file_url+nake_name
+    output_video_name = prefix_output_video_url+name_split_list[0] +'_'+name_split_list[2]
     input_srt_name = prefix_srt_url + input_file.rsplit("/", 1)[1]
 
     print('input_video_name     : ', input_video_name)
@@ -171,7 +174,7 @@ def merge_video(input_video_name, output_video_name, input_srt_name):
                                             "OutlineSize": 2,
                                             "ShadowColor": "NONE",
                                             "FontOpacity": 255,
-                                            "FontSize": 12,
+                                            "FontSize": 8,
                                             "FontColor": "WHITE",
                                             "BackgroundColor": "NONE",
                                             "FontResolution": 200,

@@ -53,7 +53,7 @@ public class FFMpegUtil {
         File tmpFile = null;
         try {
             burnedFile = TMP_PATH + "/" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())
-                    + UUID.randomUUID().toString().replaceAll("-", "") + ".mkv";
+                    + UUID.randomUUID().toString().replaceAll("-", "") + ".mp4";
             String command = HOME_PATH + FFMPEG_PATH + " -i "+ videoUrl + " -vf subtitles="+ subtitleFile +" "+ burnedFile;
             System.out.println("burn subtitle into video command : " + command);
             Process process = Runtime.getRuntime().exec(command);
@@ -69,7 +69,7 @@ public class FFMpegUtil {
 //        videoToAudio( "/Users/mac/Desktop/love.mp4" );
 
 
-        burnSubtitlesIntoVideo("/Users/mac/Downloads/zhuchiren.mp4", new File( "/Users/mac/Downloads/zhuchiren_es_mp4.srt" ));
+        burnSubtitlesIntoVideo("/Users/mac/tmp/video/test05.mp4", new File( "/Users/mac/PycharmProjects/pr/media_test/test05.srt" ));
     }
 
 }

@@ -7,7 +7,7 @@ import json
 
 bucket_name = 'dikers.nwcd'
 srt_prefix = 'media/srt/'
-output_video_prefix = 's3://'+bucket_name+'/media/video/'
+output_video_prefix = 's3://'+bucket_name+'/media/out_video/'
 intput_video_prefix = 's3://'+bucket_name+'/media/input/'
 lambda_base_path = '/tmp/'
 media_convert_endpoint_url = 'https://vasjpylpa.mediaconvert.us-east-1.amazonaws.com'
@@ -127,16 +127,20 @@ def write_to_file(sentence_list , file_name, key_name):
     :return:
     """
     print("----------- start  write to file")
-
+    result_list = translate_text(sentence_list)
+    print('===========', result_list)
     with open(file_name, 'w+') as f:
         for idx in range(len(sentence_list)):
             sentence = sentence_list[idx]
+            f.write('\n')
             f.write(str(idx + 1))
             f.write('\n')
             f.write('{} --> {}\n'.format(sentence['start_time'], sentence['end_time']))
-            f.write(sentence['content'])
-            f.write('\n\n')
-    print("----------- start  write to file success.  ")
+            f.write(sentence['content']+ '\n')
+            f.write(str(result_list[idx]) + '\n')
+            f.write('\n')
+
+    print("-----------11 write to file success.  ")
     s3_client = boto3.client('s3')
     response = s3_client.upload_file(file_name, bucket_name, key_name)
     print(response)
@@ -154,6 +158,20 @@ def generate_sentence(temp_list, content_str):
     return {'start_time': time_convert(start_time, True), 'end_time': time_convert(end_time, False), 'content': content_str}
 
 
+def translate_text(item_list):
+    """
+    翻译文字  en --> zh
+    """
+
+    translate = boto3.client(service_name='translate', region_name='us-east-1', use_ssl=True)
+    result_list = []
+    for item in item_list:
+        result = translate.translate_text(Text=item['content'],
+                                          SourceLanguageCode='en', TargetLanguageCode='zh')
+        result_list.append(result['TranslatedText'])
+        # print(item)
+    return result_list
+
 
 def time_convert(second_str, is_start=True):
     """
@@ -164,19 +182,20 @@ def time_convert(second_str, is_start=True):
     """
     items = second_str.split('.')
     seconds = int(items[0])
-    ms = int(items[1])
+    str_temp = items[1]
+    if len(str_temp) == 1:
+        str_temp += '00'
+    elif len(str_temp) == 2:
+        str_temp += '0'
 
-    if is_start:
-        if seconds > 1:
-            seconds = seconds - 1
+    ms = int(str_temp)
 
-    else:
-        seconds = seconds + 1
 
     m, s = divmod(seconds, 60)
     h, m = divmod(m, 60)
 
-    return "%02d:%02d:%02d,%s" % (h, m, s, ms)
+    return "%02d:%02d:%02d,%03d" % (h, m, s, ms)
+
 
 
 if __name__ == "__main__":
