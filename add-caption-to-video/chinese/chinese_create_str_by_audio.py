@@ -5,15 +5,20 @@ import datetime
 import urllib
 import json
 
-# s3 桶名称
+#FIXME: 修改成自己s3桶名称
 bucket_name = 'dikers.nwcd'
-# 字幕文件的前缀
+#FIXME: 字幕文件的前缀，修改存放字幕文件的路径， 改路径会触发lambda 函数， 需要和s3触发lambda的前缀保持一致
 srt_prefix = 'media-zh/srt/'
-# lambda 临时文件夹
+# lambda 临时文件夹， 不需要修改
 lambda_base_path = '/tmp/'
-# FIXME:
+# 本地调用用
 # lambda_base_path = '/Users/mac/tmp/'
-language_list = ['en', 'es', 'fr']
+
+# FIXME: 需要翻译的语言列表
+language_list = ['en', 'fr']
+
+# FIXME: translate 服务所在的region
+target_region_name = 'us-east-1'
 
 # mediaconvert endpoint
 media_convert_endpoint_url = 'https://vasjpylpa.mediaconvert.us-east-1.amazonaws.com'
@@ -68,7 +73,7 @@ def get_transcribe(audio_file_url):
         if response['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
             break
         print("Not ready yet...")
-        time.sleep(5)
+        time.sleep(10)
     print(response)
     return response
 
@@ -192,14 +197,19 @@ def translate_text(item_list, language):
     """
     翻译文字  zh --> en
     """
-
-    translate = boto3.client(service_name='translate', region_name='us-east-1', use_ssl=True)
-    result_list = []
+    # 合并成一个字符串进行翻译
+    # print('---- item_list: ',item_list )
+    item_list_str = ''
     for item in item_list:
-        result = translate.translate_text(Text=item['content'],
-                                          SourceLanguageCode="zh", TargetLanguageCode=language)
-        result_list.append(result['TranslatedText'])
-        # print(item)
+        item_list_str += item['content']+'\n'
+
+    # print('---- item_list_str: ',item_list_str )
+    translate = boto3.client(service_name='translate', region_name=target_region_name, use_ssl=True)
+    result_list = []
+    result = translate.translate_text(Text=item_list_str,
+                                      SourceLanguageCode="zh", TargetLanguageCode=language)
+    result_list = result['TranslatedText'].split('\n')
+    print(result_list)
     return result_list
 
 
@@ -224,4 +234,3 @@ def time_convert(second_str):
     h, m = divmod(m, 60)
 
     return "%02d:%02d:%02d,%03d" % (h, m, s, ms)
-
