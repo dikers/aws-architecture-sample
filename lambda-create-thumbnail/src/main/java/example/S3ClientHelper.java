@@ -24,14 +24,18 @@ public class S3ClientHelper {
     /**
      * 在 lambda 环境变量里面设置
      */
-    private static final String sRegionName = System.getenv( "region_name" );
+    //FIXME:  不能设置环境变量， 可以从s3中读取。
+//    private static final String sRegionName = System.getenv( "region_name" );
+    private static final String sRegionName = "cn-northwest-1";
     /**
      *
      * 用分号和逗号进行分割,例如下面的示例， 根据这几组数字进行缩放
      * 300,200;600,400
      *
      */
-    private static final String sImageSizeConfig = System.getenv( "image_size_config" );
+    //FIXME:  不能设置环境变量， 可以从s3中读取。
+//    private static final String sImageSizeConfig = System.getenv( "image_size_config" );
+    private static final String sImageSizeConfig = "300,200;600,400";
 
 
     private List<ImageSize> imageSizeList;
@@ -75,8 +79,8 @@ public class S3ClientHelper {
         String lowStr = key.toLowerCase();
         if(!lowStr.endsWith(Config.IMAGE_TYPE_JPG )
                 &&  !lowStr.endsWith( Config.IMAGE_TYPE_JPEG )
-                && !lowStr.endsWith(Config.IMAGE_TYPE_JPEG )){
-            System.out.println(" ------ return   key: "+key );
+                && !lowStr.endsWith(Config.IMAGE_TYPE_PNG )){
+            System.out.println(" ------ 不需要生成缩略图 return   key: "+key );
             return ;
         }
 
