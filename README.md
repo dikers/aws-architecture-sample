@@ -7,6 +7,8 @@
 
 ### 2. [人脸识别 rekognition](https://github.com/dikers/aws-architecture-sample/tree/master/detect-faces)
 
-### 3. [生成缩略图  s3 + lambda](https://github.com/dikers/aws-architecture-sample/tree/master/lambda-create-thumbnail)
+### 3. [视频自动添加字幕 MediaConvert + Transcribe ](https://github.com/dikers/aws-architecture-sample/tree/master/detect-faces)
 
-### 4. [视频自动添加字幕 MediaConvert + Transcribe ](https://github.com/dikers/aws-architecture-sample/tree/master/detect-faces)
+### 4. [生成缩略图  s3 + lambda](https://github.com/dikers/aws-architecture-sample/tree/master/lambda-create-thumbnail)
+
+### 5. [自动生成缩略图  Get方式  ](https://github.com/dikers/aws-architecture-sample/tree/master/create-thumbnail-java)

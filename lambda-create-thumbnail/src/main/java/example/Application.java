@@ -59,6 +59,14 @@ public class Application implements RequestHandler<S3EventNotification, String> 
     }
 
 
+    public static void main(String[] args) {
+
+        Application application = new Application();
+
+        application.uploadImage( "dikers.nwcd", "images/test03.jpeg" );
+
+    }
+
 
 
 }

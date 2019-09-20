@@ -1,6 +1,11 @@
 package example;
 
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import net.coobird.thumbnailator.Thumbnails;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentials;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
@@ -26,7 +31,7 @@ public class S3ClientHelper {
      */
     //FIXME:  不能设置环境变量， 可以从s3中读取。
 //    private static final String sRegionName = System.getenv( "region_name" );
-    private static final String sRegionName = "cn-northwest-1";
+    private static final String sRegionName = "us-east-1";
     /**
      *
      * 用分号和逗号进行分割,例如下面的示例， 根据这几组数字进行缩放
@@ -35,7 +40,7 @@ public class S3ClientHelper {
      */
     //FIXME:  不能设置环境变量， 可以从s3中读取。
 //    private static final String sImageSizeConfig = System.getenv( "image_size_config" );
-    private static final String sImageSizeConfig = "300,200;600,400";
+    private static final String sImageSizeConfig = "80,80;130,130;600,600";
 
 
     private List<ImageSize> imageSizeList;
@@ -53,7 +58,10 @@ public class S3ClientHelper {
         System.out.println("region_name             :" + sRegionName);
         System.out.println("sImageSizeConfig        :" + sImageSizeConfig);
         region =  Region.of(sRegionName);
+        AwsCredentials awsCreds = AwsBasicCredentials.create("AKIAVDTAML2YJYOHFP56", "fY0YnK3AUo1Vp0eir/RYGah5VmLg1sBcDv7BJ0Ka");
+
         s3Client = S3Client.builder()
+                .credentialsProvider( StaticCredentialsProvider.create( awsCreds))
                 .region(region)
                 .build();
 
