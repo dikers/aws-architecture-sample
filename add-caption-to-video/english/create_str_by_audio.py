@@ -185,6 +185,8 @@ def time_convert(second_str, is_start=True):
     str_temp = items[1]
     if len(str_temp) == 1:
         str_temp += '00'
+    elif len(str_ms) > 3:
+        str_ms = str_ms[0:3]
     elif len(str_temp) == 2:
         str_temp += '0'
 
@@ -195,7 +197,6 @@ def time_convert(second_str, is_start=True):
     h, m = divmod(m, 60)
 
     return "%02d:%02d:%02d,%03d" % (h, m, s, ms)
-
 
 
 if __name__ == "__main__":

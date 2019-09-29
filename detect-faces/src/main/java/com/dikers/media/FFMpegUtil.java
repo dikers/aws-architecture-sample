@@ -69,7 +69,7 @@ public class FFMpegUtil {
 //        videoToAudio( "/Users/mac/Desktop/love.mp4" );
 
 
-        burnSubtitlesIntoVideo("/Users/mac/tmp/video/test05.mp4", new File( "/Users/mac/PycharmProjects/pr/media_test/test05.srt" ));
+        burnSubtitlesIntoVideo("/Users/mac/Desktop/aws_2.mp4", new File( "/Users/mac/Desktop/aws_2_mp4.srt" ));
     }
 
 }
