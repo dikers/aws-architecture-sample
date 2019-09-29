@@ -11,6 +11,8 @@ output_video_prefix = 's3://'+bucket_name+'/media/out_video/'
 intput_video_prefix = 's3://'+bucket_name+'/media/input/'
 lambda_base_path = '/tmp/'
 media_convert_endpoint_url = 'https://vasjpylpa.mediaconvert.us-east-1.amazonaws.com'
+audio_type = 'mp4'
+
 
 
 def lambda_handler(event, context):
@@ -54,7 +56,7 @@ def get_transcribe(audio_file_url):
     transcribe.start_transcription_job(
         TranscriptionJobName=job_name,
         Media={'MediaFileUri': job_uri},
-        MediaFormat='mp4',
+        MediaFormat= audio_type,
         LanguageCode='en-US'
     )
     while True:
