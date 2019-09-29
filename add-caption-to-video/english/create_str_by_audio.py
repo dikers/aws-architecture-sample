@@ -185,8 +185,8 @@ def time_convert(second_str, is_start=True):
     str_temp = items[1]
     if len(str_temp) == 1:
         str_temp += '00'
-    elif len(str_ms) > 3:
-        str_ms = str_ms[0:3]
+    elif len(str_temp) > 3:
+        str_temp = str_temp[0:3]
     elif len(str_temp) == 2:
         str_temp += '0'
 
