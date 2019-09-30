@@ -11,6 +11,8 @@ output_video_prefix = 's3://'+bucket_name+'/media/out_video/'
 intput_video_prefix = 's3://'+bucket_name+'/media/input/'
 lambda_base_path = '/tmp/'
 media_convert_endpoint_url = 'https://vasjpylpa.mediaconvert.us-east-1.amazonaws.com'
+audio_type = 'mp4'
+
 
 
 def lambda_handler(event, context):
@@ -54,7 +56,7 @@ def get_transcribe(audio_file_url):
     transcribe.start_transcription_job(
         TranscriptionJobName=job_name,
         Media={'MediaFileUri': job_uri},
-        MediaFormat='mp4',
+        MediaFormat= audio_type,
         LanguageCode='en-US'
     )
     while True:
@@ -185,6 +187,8 @@ def time_convert(second_str, is_start=True):
     str_temp = items[1]
     if len(str_temp) == 1:
         str_temp += '00'
+    elif len(str_temp) > 3:
+        str_temp = str_temp[0:3]
     elif len(str_temp) == 2:
         str_temp += '0'
 
@@ -195,7 +199,6 @@ def time_convert(second_str, is_start=True):
     h, m = divmod(m, 60)
 
     return "%02d:%02d:%02d,%03d" % (h, m, s, ms)
-
 
 
 if __name__ == "__main__":
