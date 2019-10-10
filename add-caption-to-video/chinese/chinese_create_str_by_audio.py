@@ -20,10 +20,6 @@ language_list = ['en', 'fr']
 # FIXME: translate 服务所在的region
 target_region_name = 'us-east-1'
 
-# mediaconvert endpoint
-media_convert_endpoint_url = 'https://vasjpylpa.mediaconvert.us-east-1.amazonaws.com'
-
-
 def lambda_handler(event, context):
     audio_file_url = 's3://' + event['Records'][0]['s3']['bucket']['name'] + '/' + event['Records'][0]['s3']['object'][
         'key']
