@@ -121,8 +121,10 @@
 
 ### 爬网程序
 
-设置Role   
+#### 设置Role   
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/100.png?raw=true)
+
+
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/101.png?raw=true)
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/102.png?raw=true)
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/103.png?raw=true)
@@ -131,7 +133,12 @@
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/106.png?raw=true)
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/107.png?raw=true)
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/108.png?raw=true)
+
+####  运行爬网程序
+在这里需要点击立即运行 
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/109.png?raw=true)
+
+
 
 
 
@@ -154,10 +161,14 @@
 需要修改最后三行代码， 将数据保存到s3中， 供后续处理。 
 
 ```
-#  connection_options = {"path":"s3://你自己的s3桶名称/dms/glue/jobTest01.json"}
+# 需要修改的s3 文件路径  connection_options = {"path":"s3://你自己的s3桶名称/dms/glue/jobTest01.json"}
 
+# 新加这行代码
 datasink4 = glueContext.write_dynamic_frame.from_options(frame = resolvechoice3, connection_type = "s3", connection_options = {"path":"s3://dikers.nwcd/dms/glue/jobTest01.json"}, format = "json",  transformation_ctx = "datasink4")
-#datasink4 = glueContext.write_dynamic_frame.from_catalog(frame = resolvechoice3, database = "demo_db", table_name = "load00000001_csv", transformation_ctx = "datasink4")
+
+# 注释掉下面这行代码
+## datasink4 = glueContext.write_dynamic_frame.from_catalog(frame = resolvechoice3, database = "demo_db", table_name = "load00000001_csv", transformation_ctx = "datasink4")
+
 job.commit()
 
 ```
