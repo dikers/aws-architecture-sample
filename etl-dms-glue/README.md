@@ -48,20 +48,20 @@
 ### 4. 创建源节点 Source Endpoints
 
 点击右上方 创建按钮
-![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/004png?raw=true)
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/004.png?raw=true)
 
 - 1. 选择  Source endpoint
 - 2. 选择  RDS DB instance
 - 3. 填写数据库 url  用户名 密码
 
-![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/005png?raw=true)
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/005.png?raw=true)
 
 
 ### 5. 创建目标节点 Target Endpoints
 
 * 选择 目标终端节点
 * 注意 服务访问角色ARN  必须有写入s3的权限
-![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/006png?raw=true)
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/006.png?raw=true)
 
 
 
@@ -69,7 +69,7 @@
 ### 6. 创建任务
 
 **点击右上方 创建按钮**
-![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/012png?raw=true)
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/012.png?raw=true)
 
 
 
@@ -79,17 +79,17 @@
 - 4. 填写 目标
 - 5. 填写 复制方式
 
-![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/013png?raw=true)
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/013.png?raw=true)
 
 
 **添加选择规则**
 
-![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/014png?raw=true)
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/014.png?raw=true)
 
 
 **添加转换规则**
 
-![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/015png?raw=true)
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/015.png?raw=true)
 
 
 ### 7. 查看结果
