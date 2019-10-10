@@ -56,7 +56,12 @@
 
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/005png?raw=true)
 
+
 ### 5. 创建目标节点 Target Endpoints
+
+* 选择 目标终端节点
+* 注意 服务访问角色ARN  必须有写入s3的权限
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/006png?raw=true)
 
 
 
