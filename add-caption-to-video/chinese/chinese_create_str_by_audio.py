@@ -227,6 +227,8 @@ def time_convert(second_str):
         str_ms += '00'
     elif len(str_ms) == 2:
         str_ms += '0'
+    elif len(str_ms) > 3:
+        str_ms = str_ms[0:3]
 
     ms = int(str_ms)
 
