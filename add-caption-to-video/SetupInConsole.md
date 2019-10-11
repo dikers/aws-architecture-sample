@@ -1,7 +1,7 @@
 # 架构图
 ![](./images/architecture.png)
 # Console 操作步骤
-## 创建S3存储桶
+### 1. 创建S3存储桶
 存储桶名称应为全球唯一，e.g subtitle.102030，直接点击创建。在新创建的存储桶内创建以下文件夹。
 ![](./images/bucket.png)
 * input: 作为上传文件夹，保存视频源文件  
@@ -9,7 +9,7 @@
 * srt: 字幕文件  
 * out_video: 合成后的视频文件夹
 
-## 测试用到的视频 
+### 2. 准备测试用到的视频 
 
 [测试视频下载 （汉语 普通话）](https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4)
 
@@ -21,7 +21,7 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 ```
 
 
-## 创建相关Roles和权限  Lambda_Subtitle 和 MediaConvert_Subtitle
+###  3. 创建相关Roles和权限  Lambda_Subtitle 和 MediaConvert_Subtitle
 1. Lambda_Subtitle, 在IAM菜单里，选择创建角色，选择Lambda作为使用该角色的服务，选择下图所示的Permission Policies （权限偏大，真实场景应以最小权限为宜）
    主要用作lambda 执行s3 , Translate  Transcribe MediaConvert 等操作。
 ![](./images/Lambda_Subtitle.png)
@@ -30,7 +30,8 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 ![](./images/MediaConvert_Subtitle.png)
 
 ## 创建Lambda Functions
-### Extra_Audio
+
+### 4. Extra_Audio
 该Lambda 函数的作用， 主要是把视频文件转换成音频文件
 
 1. 在Lambda菜单中选择创建函数，选择从头开始创作，函数名称：Extra_Audio，运行语言：Python 3.7，选择使用现有角色：Lambda_Subtitle，点击创建函数。
@@ -50,7 +51,7 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 5. 添加触发器。
 ![](./images/Lambda_Trigger_Input.png)
 
-### Generate_Subtitles
+### 5. Generate_Subtitles
 该函数是通过音频文件生成文本， 然后翻译成指定的语言， 
 
 1. 在Lambda菜单中选择创建函数，选择从头开始创作，函数名称：Generate_Subtitles，运行语言：Python 3.7，选择使用现有角色：Lambda_Subtitle，点击创建函数。
@@ -68,7 +69,7 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 
 ![](./images/Lambda_Trigger_Input_Outaudio.png)
 
-### Inject_Subtitle_To_Video
+### 6. Inject_Subtitle_To_Video
 1. 在Lambda菜单中选择创建函数，选择从头开始创作，函数名称：Inject_Subtitle_To_Video，运行语言：Python 3.7，选择使用现有角色：Lambda_Subtitle，点击创建函数。
 2. 修改 chinese_create_merge_video_by_srt.py
 
@@ -86,7 +87,7 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 ![](./images/Lambda_Trigger_Input_Srt.png)
 
 
-### 生成结果
+### 7. 生成结果
 
 * out_audio 文件夹中会生成音频文件
 
