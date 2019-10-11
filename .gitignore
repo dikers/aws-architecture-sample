@@ -30,3 +30,4 @@ build.sh
 /dist/
 /nbdist/
 /.nb-gradle/
+.ipynb_checkpoints/

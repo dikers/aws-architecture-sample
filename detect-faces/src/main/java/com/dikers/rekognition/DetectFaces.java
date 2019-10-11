@@ -57,10 +57,7 @@ public class DetectFaces {
         awsStaticCredentialsProvider = new AWSStaticCredentialsProvider( new BasicAWSCredentials(accessKey,  secretKey));
 
         executorService =  Executors.newCachedThreadPool();
-        s3Client = S3Client.builder()
-                .credentialsProvider(StaticCredentialsProvider.create( awsCreds))
-                .region(REGION)
-                .build();
+        s3Client = S3Client.builder().region(REGION).build();
 
         dynamoDbClient = DynamoDbClient.builder().region( REGION ).credentialsProvider(StaticCredentialsProvider.create( awsCreds)).build();
 
@@ -69,10 +66,10 @@ public class DetectFaces {
     }
 
     public static void main(String[] args) throws Exception {
-        if(args.length <5 ){
+        if(args.length <4 ){
 
             System.out.println("输入参数不正确： ");
-            System.out.println(" java -jar rekognition-1.0.jar accessKey secretKey bucketName region  mediaPath");
+            System.out.println(" java -jar rekognition-1.0.jar accessKey secretKey bucketName region ");
             return ;
         }
 
@@ -80,16 +77,16 @@ public class DetectFaces {
         String secretKey = args[1];
         String bucketName = args[2];
         Region region = Region.of(args[3]);
-        String inputPath = args[4];
 
 
         System.out.println(" ---------- ACCESS_KEY : "+  accessKey);
         System.out.println(" ---------- SECRET_KEY : "+  secretKey);
         System.out.println(" ---------- BUCKET_NAME : "+  bucketName);
         System.out.println(" ---------- region : "+  region);
-        System.out.println(" ---------- inputPath : "+  inputPath);
+        System.out.println(" ---------- region : "+  region);
+
         DetectFaces  detectFaces = new DetectFaces(accessKey , secretKey,bucketName, region );
-        detectFaces.copyImageToS3("/Users/mac/Desktop/sleep.jpg");
+        detectFaces.copyImageToS3("/Users/mac/tmp/img/90.jpg");
 
     }
 
@@ -106,7 +103,7 @@ public class DetectFaces {
     private void copyImageToS3(String filePath ) {
         try {
 
-            String key =  UUID.randomUUID().toString().replace( "-", "" )+".jpg";
+            String key = "faces/"+UUID.randomUUID().toString().replace( "-", "" )+".jpg";
             PutObjectResponse putObjectResponse = s3Client.putObject( PutObjectRequest.builder().bucket(BUCKET_NAME).key(key).build(),
                     RequestBody.fromBytes(file2byte(filePath)));
             System.out.println("---------------- update ["+BUCKET_NAME+"]["+key+"] image success    " );
@@ -240,7 +237,12 @@ public class DetectFaces {
 //        S3 有两种访问方式
 //        saveToDB("https://s3.amazonaws.com/"+BUCKET_NAME+"/"+name );
         //TODO:  url 地址需要从S3 中返回， 这里先固定。
-        String url = "https://"+BUCKET_NAME+".s3-us-west-2.amazonaws.com/"+key;
+//        String url = "http://"+BUCKET_NAME+".s3-"+REGION+".amazonaws.com/"+key;
+
+        String url = "https://s3.amazonaws.com/"+BUCKET_NAME+"/"+key;
+
+
+        System.out.println("======= s3 url:   " + url);
 
 
         Date currentTime = new Date();
