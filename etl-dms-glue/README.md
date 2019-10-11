@@ -179,3 +179,21 @@ job.commit()
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/127.png?raw=true)
 
 
+
+### 将csv 文件导入到Redshift 中
+
+```
+# 1  在redshift 中新建表
+create table tb_user (id int, name varchar, age int , sex int);
+
+
+# 2  使用copy 导入csv 文件
+copy tb_user from 's3://dikers.nwcd/dms/demo/demo_db/tb_user/LOAD00000001.csv'
+credentials 'aws_access_key_id=<Your-Access-Key-ID>;aws_secret_access_key=<Your-Secret-Access-Key>'  
+csv
+
+# 3  查询数据
+select * from tb_user;
+```
+
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/300.png?raw=true)
