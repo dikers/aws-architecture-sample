@@ -13,3 +13,7 @@
 ### 3. 对字幕文件进行和平
 
 使用MediaConvert 服务， 字幕文件生成后， 和原始视频进行合并。 
+
+
+
+### [操作步骤](https://github.com/dikers/aws-architecture-sample/blob/master/add-caption-to-video/SetupInConsole.md)
