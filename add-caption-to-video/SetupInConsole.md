@@ -11,7 +11,7 @@
 
 ## 测试用到的视频 
 
-[新闻发言视频 汉语 普通话](https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4)
+[测试视频下载 （汉语 普通话）](https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4)
 
 可以将视频文件下载到本地， 然后上传到指定的s3中
 ```
@@ -21,8 +21,9 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 ```
 
 
-## 创建Roles, Lambda_Subtitle 和 MediaConvert_Subtitle
+## 创建相关Roles和权限  Lambda_Subtitle 和 MediaConvert_Subtitle
 1. Lambda_Subtitle, 在IAM菜单里，选择创建角色，选择Lambda作为使用该角色的服务，选择下图所示的Permission Policies （权限偏大，真实场景应以最小权限为宜）
+   主要用作lambda 执行s3 , Translate  Transcribe MediaConvert 等操作。
 ![](./images/Lambda_Subtitle.png)
 
 2. MediaConvert_Subtitle, 在IAM菜单里，选择创建角色，选择MediaConvert作为使用该角色的服务，选择下图所示的Permission Policies （权限偏大，真实场景应以最小权限为宜）
@@ -43,7 +44,7 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 
 * media_convert_role_arn：在IAM菜单中找到角色MediaConvert_Subtitle，复制角色ARN
 
-3. 复制chinese_create_audio_media_convert.py代码到刚创建的Extra_Subtitle的函数代码中，并保存。
+3. 复制chinese_create_audio_media_convert.py代码到刚创建的Extra_Subtitle的函数代码中，修改上面的内容， 并保存。
 ![](./images/Extra_Audio_Code.png)
 4. 点击[操作]，发布新版本。
 5. 添加触发器。
