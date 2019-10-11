@@ -21,20 +21,9 @@
 * srt: 字幕文件  
 * out_video: 合成后的视频文件夹
 
-### 2. 准备测试用到的视频 
+ 
 
-[测试视频下载 （汉语 普通话）](https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4)
-
-可以将视频文件下载到本地， 后面测试中上传到指定的s3中
-```
-wget  https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4 
-
-aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
-
-```
-
-
-###  3. 创建相关Roles和权限  Lambda_Subtitle 和 MediaConvert_Subtitle
+###  2. 创建相关Roles和权限  Lambda_Subtitle 和 MediaConvert_Subtitle
 1. Lambda_Subtitle, 在IAM菜单里，选择创建角色，选择Lambda作为使用该角色的服务，选择下图所示的Permission Policies （权限偏大，真实场景应以最小权限为宜）
    主要用作lambda 执行s3 , Translate  Transcribe MediaConvert 等操作。
 ![](./images/Lambda_Subtitle.png)
@@ -44,7 +33,7 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 
 ## 创建Lambda Functions
 
-### 4. Extra_Audio
+### 3. Extra_Audio
 该Lambda 函数的作用， 主要是把视频文件转换成音频文件
 
 1. 在Lambda菜单中选择创建函数，选择从头开始创作，函数名称：Extra_Audio，运行语言：Python 3.7，选择使用现有角色：Lambda_Subtitle，点击创建函数。
@@ -65,10 +54,17 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 3. 复制chinese_create_audio_media_convert.py代码到刚创建的Extra_Subtitle的函数代码中，修改上面的内容， 并保存。
 ![](./images/Extra_Audio_Code.png)
 4. 点击[操作]，发布新版本。
-5. 添加触发器。
+
+5. 添加触发器
+在lambda 中配置触发事件
 ![](./images/Lambda_Trigger_Input.png)
 
-### 5. Generate_Subtitles
+也可以在s3中配置触发事件
+![](./images/005.png)
+
+
+
+### 4. Generate_Subtitles
 该函数是通过音频文件生成文本， 然后翻译成指定的语言， 
 
 1. 在Lambda菜单中选择创建函数，选择从头开始创作，函数名称：Generate_Subtitles，运行语言：Python 3.7，选择使用现有角色：Lambda_Subtitle，点击创建函数。
@@ -80,13 +76,14 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 * target_region_name = 'us-east-1' -- region名称为您AWS console当前所操作的region
 
 3. Lambda 函数执行时间需要调整成15分钟， 中间执行的任务比较多， 耗时长 。
+
 4. 复制chinese_create_str_by_audio.py代码到刚创建的Generate_Subtitles的函数代码中，并保存。
 5. 点击[操作]，发布新版本。
 6. 添加触发器。
 
 ![](./images/Lambda_Trigger_Input_Outaudio.png)
 
-### 6. Inject_Subtitle_To_Video
+### 5. Inject_Subtitle_To_Video
 1. 在Lambda菜单中选择创建函数，选择从头开始创作，函数名称：Inject_Subtitle_To_Video，运行语言：Python 3.7，选择使用现有角色：Lambda_Subtitle，点击创建函数。
 2. 修改 chinese_create_merge_video_by_srt.py
 
@@ -104,7 +101,20 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 ![](./images/Lambda_Trigger_Input_Srt.png)
 
 
-### 7. 生成结果
+### 6. 测试
+
+
+[测试视频下载 （汉语 普通话）](https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4)
+
+可以将视频文件下载到本地， 测试中上传到指定的s3中
+```
+wget  https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4 
+
+aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
+
+```
+
+依次查看下面文件夹的输出
 
 * out_audio 文件夹中会生成音频文件
 
