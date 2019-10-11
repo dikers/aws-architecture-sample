@@ -10,7 +10,7 @@
 使用MediaConvert 服务， 字幕文件生成后， 和原始视频进行合并。 
 
 
-# 架构图
+## 架构图
 ![](./images/architecture.png)
 # Console 操作步骤
 ### 1. 创建S3存储桶
@@ -25,9 +25,10 @@
 
 [测试视频下载 （汉语 普通话）](https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4)
 
-可以将视频文件下载到本地， 然后上传到指定的s3中
+可以将视频文件下载到本地， 后面测试中上传到指定的s3中
 ```
 wget  https://s3.amazonaws.com/dikers.nwcd/media-zh/test04.mp4 
+
 aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 
 ```
@@ -47,7 +48,11 @@ aws s3 cp test04.mp4 s3://subtitle.102030/input/test04.mp4
 该Lambda 函数的作用， 主要是把视频文件转换成音频文件
 
 1. 在Lambda菜单中选择创建函数，选择从头开始创作，函数名称：Extra_Audio，运行语言：Python 3.7，选择使用现有角色：Lambda_Subtitle，点击创建函数。
-2. 修改 chinese_create_audio_media_convert.py
+![](./images/003.png)
+
+2. 修改 chinese_create_audio_media_convert.py 中的常量
+![](./images/004.png)
+
 * media_convert_endpoint_url：在AWS Console的MediaConvert菜单中，点击账户找到
 ![](./images/001.png)
 * prefix_output_audio_url： 's3://subtitle.102030/out_audio/' -- 存储桶名称为您刚创建的桶名称
