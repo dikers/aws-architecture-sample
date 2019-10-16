@@ -197,3 +197,22 @@ select * from tb_user;
 ```
 
 ![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/300.png?raw=true)
+
+
+
+### 通过binlog  持续复制
+
+您的源数据库为 MySQL。复制正在进行的更改需要启用 MySQL 二进制日志并设置为行。
+请确保您的二进制日志在服务器上保留充足的时间(通常需要 24 小时。) 要在 RDS 实例中设置您的二进制日志保留时间，可以使用以下命令: call mysql.rds_set_configuration(''binlog retention hours'', 24);
+
+*  设置数据库 参数组 binlog_format 为row， 设置好以后， 重新启动数据库实例
+
+*  打开mysql 客户端连接工具 执行   call mysql.rds_set_configuration(''binlog retention hours'', 24);
+
+ 
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/203.png?raw=true)
+
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/201.png?raw=true)
+
+![Image](https://github.com/dikers/aws-architecture-sample/blob/master/etl-dms-glue/image/202.png?raw=true)
+
