@@ -1,46 +1,76 @@
 import json
 import boto3
-import decimal
+import base64
 from boto3.dynamodb.conditions import Key
 
 TABLE_NAME = "wordcount"
+CREATE_TIME = '2019080802' #暂时固定，实际开发中根据情况获取当前小时信息
 
-
-class DecimalEncoder(json.JSONEncoder):
+def insert_item(item):
     """
-    json 中 整型变量转换
+    向DynamoDB中插入单条数据
+    :param item:
+    :return:
     """
-    def default(self, o):
-        if isinstance(o, decimal.Decimal):
-            return int(o)
-        super(DecimalEncoder, self).default(o)
+    print("insert item: ", item)
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table(TABLE_NAME)
+    table.put_item(Item=item)
 
 
-
-def query_item_list(create_time):
+def query_item(create_time, word):
     """
-    获取多条数据
-    :return: list
+    查询单条数据， 根据分区键和排序键进行查询
+    :return: item
     """
 
     dynamodb = boto3.resource('dynamodb')
     table = dynamodb.Table(TABLE_NAME)
     response = table.query(
-        KeyConditionExpression=Key('create_time').eq(create_time)
+        KeyConditionExpression=Key('create_time').eq(create_time) & Key('word_text').eq(word)
     )
 
+    return response['Items']
 
-    result = []
-    for i in range(len(response['Items'])):
+def handle_record(records):
+    """
+    对单位时间的单词出现次数进行累加操作， 然后写入到DynamoDB
+    """
+
+    for i in range(len(records)):
+        try:
+            print('data raw    =  [',  base64.b64decode(records[i]['kinesis']['data']), ']  ' )
+            print('data decode =  [', str(base64.b64decode(records[i]['kinesis']['data']) , 'utf-8'), ']  ' )
+            line = str(base64.b64decode(records[i]['kinesis']['data']) , 'utf-8')
+        except UnicodeDecodeError as e:
+            print('except:', e)
+            continue
+
+        x = line.split(':');
         item = {}
-        item['x'] = response['Items'][i]['word_text']
-        item['value'] = int(response['Items'][i]['frequency'])
-        item['category'] = 'type_'+str(i % 5)
-        result.append(item)
-    # print(result)
+        word_text = x[0].lstrip().rstrip()
+        frequency =  int(x[1].lstrip().rstrip())
+        print('word= ', word_text, '\t  frequency= ', frequency)
+        item['create_time'] = CREATE_TIME
+        item['word_text'] = word_text
 
-    return result
+        old_items = query_item(CREATE_TIME,word_text )
+
+        # 累加
+        if len(old_items) > 0   :
+            frequency = frequency + int(old_items[0]['frequency'])
+
+        item['frequency'] =  frequency
+        insert_item(item)
+
 
 def lambda_handler(event, context):
-    response = query_item_list('2019080802')
-    return response
+    records = event['Records'];
+    print("============================= \n" , records)
+    print('收到 {0}条数据 '.format(len(records)))
+    handle_record(records)
+
+    return {
+        'statusCode': 200,
+        'body': 'ok'
+    }
