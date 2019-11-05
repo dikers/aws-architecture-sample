@@ -47,6 +47,9 @@ public class KinesisFlinkDemo {
         String inputKinesisName  = args[3];
         String outputKinesisName  = args[4];
 
+        System.out.println("args 3 ====   input kinesis name "+ args[3]);
+        System.out.println("args 4 ====   output kinesis name " +  args[4] );
+
         Properties consumerConfig = new Properties();
         consumerConfig.put( ConsumerConfigConstants.AWS_REGION, args[0]);
         consumerConfig.put(ConsumerConfigConstants.AWS_ACCESS_KEY_ID, args[1]);
