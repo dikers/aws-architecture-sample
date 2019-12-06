@@ -7,8 +7,8 @@ import boto3
 bucket_name = 'media.subtitle'
 
 # FIXME global IAM, 需要translate权限
-aws_access_key_id='AKIA6OS4EHM4YBNR4XMJ'
-aws_secret_access_key='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'
+aws_access_key_id='fixme'
+aws_secret_access_key='fixme'
 
 
 
